@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"errors"
 	entities "notes-api/v2/domain/entities"
-	repositories "notes-api/v2/domain/repositories"
+	"notes-api/v2/domain/repositories"
 )
 
 type SqlRepository struct {
@@ -15,6 +15,10 @@ func NewSqlRepository(db *sql.DB) *SqlRepository {
 	return &SqlRepository{
 		db: db,
 	}
+}
+
+var _ repositories.NoteRepository = &SqlRepository{
+	db: &sql.DB{},
 }
 
 func (repo *SqlRepository) Create(title *string, content *string) (*entities.Note, error) {
@@ -127,7 +131,6 @@ func (repo *SqlRepository) UpdateContent(id *int, content *string) (*entities.No
 	}
 
 	note.Content = *content
-
 	return note, nil
 
 }
@@ -152,11 +155,6 @@ func (repo *SqlRepository) UpdateTitle(id *int, title *string) (*entities.Note, 
 	}
 
 	note.Title = *title
-
 	return note, nil
 
-}
-
-var _ repositories.NoteRepository = &SqlRepository{
-	db: &sql.DB{},
 }

@@ -4,7 +4,9 @@ import (
 	"database/sql"
 	"log"
 	"notes-api/v2/infrastructure/connectors"
+	presenters "notes-api/v2/infrastructure/presenters"
 
+	"github.com/julienschmidt/httprouter"
 	_ "github.com/lib/pq"
 )
 
@@ -16,13 +18,8 @@ func main() {
 		log.Panic(err)
 	}
 
+	router := *httprouter.New()
 	//SqlRepository := repository.NewSqlRepository(db)
 
-	//var titolo string = "Titolo"
-	//var contenuto string = "Contenuto"
-
-	if err != nil {
-		log.Panic(err)
-	}
-
+	presenters.Build(router, db)
 }
