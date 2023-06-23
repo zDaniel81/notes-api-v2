@@ -2,23 +2,25 @@ package usecases
 
 import (
 	entities "notes-api/v2/domain/entities"
-	interfaces "notes-api/v2/domain/interfaces"
+	repositories "notes-api/v2/domain/repositories"
 )
 
 type CreateNoteUseCase struct {
-	repository interfaces.NoteRepository
+	repository repositories.NoteRepository
 }
 
-func NewCreateNoteUseCase(repository interfaces.NoteRepository) *CreateNoteUseCase {
+func NewCreateNoteUseCase(repository repositories.NoteRepository) *CreateNoteUseCase {
 	return &CreateNoteUseCase{
 		repository: repository,
 	}
 }
 
-func (uc *CreateNoteUseCase) Create(id *string, title string, content string) *entities.Note {
-	return &entities.Note{
-		ID:      id,
-		Title:   title,
-		Content: content,
+func (uc *CreateNoteUseCase) Call(id *string, title string, content string) (*entities.Note, error) {
+	note, err := uc.repository.Create(id, title, content)
+
+	if err != nil {
+		return nil, err
 	}
+
+	return note, nil
 }
