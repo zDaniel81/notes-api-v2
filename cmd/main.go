@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 	"notes-api/v2/infrastructure/connectors"
 	repository "notes-api/v2/infrastructure/repositories"
@@ -19,6 +20,17 @@ func main() {
 
 	SqlRepository := repository.NewSqlRepository(db)
 
-	SqlRepository.Create("test", "content")
+	var titolo string = "Titolo"
+	var contenuto string = "Contenuto"
+
+	note, err := SqlRepository.Create(&titolo, &contenuto)
+
+	if err != nil {
+		log.Panic(err)
+	}
+
+	if note == nil {
+		fmt.Print("note is nil")
+	}
 
 }

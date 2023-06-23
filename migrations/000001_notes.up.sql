@@ -1,5 +1,5 @@
 CREATE TABLE notes (
-    ID UUID PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+    ID serial PRIMARY KEY NOT NULL,
     Title text NOT NULL,
     Content text NOT NULL
 );
