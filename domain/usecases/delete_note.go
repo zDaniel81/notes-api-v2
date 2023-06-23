@@ -15,7 +15,7 @@ func NewDeleteUseCase(repository repositories.NoteRepository) *DeleteNoteUseCase
 	}
 }
 
-func (uc *DeleteNoteUseCase) Call(id *string) (*entities.Note, error) {
+func (uc *DeleteNoteUseCase) Call(id *int64) (*entities.Note, error) {
 	note, err := uc.repository.Delete(id)
 
 	if err != nil {

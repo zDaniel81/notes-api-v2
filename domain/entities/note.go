@@ -1,7 +1,7 @@
 package entities
 
 type Note struct {
-	ID      *string
+	ID      int64
 	Title   string
 	Content string
 }

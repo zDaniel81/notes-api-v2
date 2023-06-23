@@ -15,8 +15,8 @@ func NewCreateNoteUseCase(repository repositories.NoteRepository) *CreateNoteUse
 	}
 }
 
-func (uc *CreateNoteUseCase) Call(id *string, title string, content string) (*entities.Note, error) {
-	note, err := uc.repository.Create(id, title, content)
+func (uc *CreateNoteUseCase) Call(title string, content string) (*entities.Note, error) {
+	note, err := uc.repository.Create(title, content)
 
 	if err != nil {
 		return nil, err
