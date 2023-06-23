@@ -74,7 +74,7 @@ func (repo *SqlRepository) GetAll() ([]*entities.Note, error) {
 	for rows.Next() {
 
 		var note entities.Note
-		err = rows.Scan(note.ID, note.Title, note.Content)
+		err = rows.Scan(&note.ID, &note.Title, &note.Content)
 
 		if err != nil {
 			return nil, err
