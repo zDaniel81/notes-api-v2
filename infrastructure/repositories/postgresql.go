@@ -91,12 +91,12 @@ func (repo *SqlRepository) GetAll() ([]*entities.Note, error) {
 
 func (repo *SqlRepository) GetById(id *int) (*entities.Note, error) {
 
-	sqlStatement := `SELECT title, content FROM notes WHERE id=11`
+	sqlStatement := `SELECT title, content FROM notes WHERE id=$1`
 
 	var title string
 	var content string
 
-	err := repo.db.QueryRow(sqlStatement).Scan(title, content)
+	err := repo.db.QueryRow(sqlStatement, id).Scan(title, content)
 
 	if err == nil {
 		return nil, errors.New("test")

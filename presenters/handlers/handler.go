@@ -4,14 +4,18 @@ import (
 	"encoding/json"
 	"net/http"
 	"notes-api/v2/domain/usecases"
-	presenters "notes-api/v2/infrastructure/presenters/notes"
+	repository "notes-api/v2/infrastructure/repositories"
+	presenters "notes-api/v2/presenters"
 	"strconv"
 
 	"github.com/julienschmidt/httprouter"
 )
 
-func GetNote(uc *usecases.GetNoteUseCase) httprouter.Handle {
+func GetNote() httprouter.Handle {
 	return func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+
+		var repository repository.SqlRepository
+		uc := usecases.NewGetNoteUseCase(&repository)
 
 		id, err := strconv.Atoi(ps.ByName("note_id"))
 

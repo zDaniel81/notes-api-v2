@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"log"
 	"notes-api/v2/infrastructure/connectors"
-	presenters "notes-api/v2/infrastructure/presenters"
+	routes "notes-api/v2/presenters/routes"
 
 	"github.com/julienschmidt/httprouter"
 	_ "github.com/lib/pq"
@@ -21,5 +21,5 @@ func main() {
 	router := *httprouter.New()
 	//SqlRepository := repository.NewSqlRepository(db)
 
-	presenters.Build(router, db)
+	routes.Build(router, db)
 }
