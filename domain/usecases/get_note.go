@@ -15,7 +15,7 @@ func NewGetNoteUseCase(repository repositories.NoteRepository) *GetNoteUseCase {
 	}
 }
 
-func (uc *GetNoteUseCase) Call(id *int) (*entities.Note, error) {
+func (uc *GetNoteUseCase) Call(id int) (*entities.Note, error) {
 	note, err := uc.repository.GetById(id)
 
 	if err != nil {

@@ -9,3 +9,19 @@ func PresentNote(note entities.Note) *entities.Note {
 		Content: note.Content,
 	}
 }
+
+func PresentNotes(notes []*entities.Note) []*entities.Note {
+
+	var result []*entities.Note
+
+	for note := range notes {
+		note := &entities.Note{
+			ID:      notes[note].ID,
+			Content: notes[note].Content,
+			Title:   notes[note].Title,
+		}
+		result = append(result, note)
+	}
+
+	return result
+}

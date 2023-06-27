@@ -19,7 +19,6 @@ func main() {
 	}
 
 	router := *httprouter.New()
-	//SqlRepository := repository.NewSqlRepository(db)
 
 	routes.Build(router, db)
 }

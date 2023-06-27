@@ -2,7 +2,7 @@ package repository
 
 import (
 	"database/sql"
-	"errors"
+	"fmt"
 	entities "notes-api/v2/domain/entities"
 	"notes-api/v2/domain/repositories"
 )
@@ -28,11 +28,9 @@ func (repo *SqlRepository) Create(title *string, content *string) (*entities.Not
 
 	var note entities.Note
 
-	err := repo.db.QueryRow(sqlStatement, title, content).Scan(&note.ID)
+	err := repo.db.QueryRow(sqlStatement, &title, &content).Scan(&note.ID)
 
-	if err != nil {
-		return nil, err
-	}
+	fmt.Print(err)
 
 	note = entities.Note{
 		ID:      note.ID,
@@ -44,20 +42,20 @@ func (repo *SqlRepository) Create(title *string, content *string) (*entities.Not
 
 }
 
-func (repo *SqlRepository) Delete(id *int) (*entities.Note, error) {
+func (repo *SqlRepository) Delete(id int) (*entities.Note, error) {
 
 	sqlStatement := `
-	DELETE FROM NOTES
-	WHERE id = $1`
+	DELETE FROM notes
+	WHERE id=$1`
 
-	_, err := repo.db.Exec(sqlStatement, &id)
+	_, err := repo.db.Exec(sqlStatement, id)
 
 	if err != nil {
 		return nil, err
 	}
 
 	note := entities.Note{
-		ID: *id,
+		ID: id,
 	}
 
 	return &note, nil
@@ -89,29 +87,29 @@ func (repo *SqlRepository) GetAll() ([]*entities.Note, error) {
 	return notes, nil
 }
 
-func (repo *SqlRepository) GetById(id *int) (*entities.Note, error) {
+func (repo *SqlRepository) GetById(id int) (*entities.Note, error) {
 
 	sqlStatement := `SELECT title, content FROM notes WHERE id=$1`
 
-	var title string
-	var content string
+	var title *string
+	var content *string
 
-	err := repo.db.QueryRow(sqlStatement, id).Scan(title, content)
+	err := repo.db.QueryRow(sqlStatement, id).Scan(&title, &content)
 
-	if err == nil {
-		return nil, errors.New("test")
+	if err != nil {
+		return nil, err
 	}
 
 	note := entities.Note{
-		ID:      *id,
-		Title:   title,
-		Content: content,
+		ID:      id,
+		Title:   *title,
+		Content: *content,
 	}
 
 	return &note, nil
 }
 
-func (repo *SqlRepository) UpdateContent(id *int, content *string) (*entities.Note, error) {
+func (repo *SqlRepository) UpdateContent(id int, content *string) (*entities.Note, error) {
 
 	note, err := repo.GetById(id)
 
@@ -122,9 +120,10 @@ func (repo *SqlRepository) UpdateContent(id *int, content *string) (*entities.No
 	sqlStatement := `
 		UPDATE notes
 		SET
-		content=$1`
+		content=$1
+		WHERE id=$2`
 
-	_, err = repo.db.Exec(sqlStatement, content)
+	_, err = repo.db.Exec(sqlStatement, content, id)
 
 	if err != nil {
 		return nil, err
@@ -135,7 +134,7 @@ func (repo *SqlRepository) UpdateContent(id *int, content *string) (*entities.No
 
 }
 
-func (repo *SqlRepository) UpdateTitle(id *int, title *string) (*entities.Note, error) {
+func (repo *SqlRepository) UpdateTitle(id int, title *string) (*entities.Note, error) {
 
 	note, err := repo.GetById(id)
 
@@ -146,9 +145,10 @@ func (repo *SqlRepository) UpdateTitle(id *int, title *string) (*entities.Note, 
 	sqlStatement := `
 		UPDATE notes
 		SET
-		title=$1`
+		title=$1
+		WHERE id=$2`
 
-	_, err = repo.db.Exec(sqlStatement, title)
+	_, err = repo.db.Exec(sqlStatement, title, id)
 
 	if err != nil {
 		return nil, err

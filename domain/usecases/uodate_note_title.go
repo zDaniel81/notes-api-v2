@@ -15,7 +15,7 @@ func NewUpdateTitleNoteUseCase(repository repositories.NoteRepository) *UpdateTi
 	}
 }
 
-func (uc *UpdateTitleNoteUseCase) Call(id *int, title *string) (*entities.Note, error) {
+func (uc *UpdateTitleNoteUseCase) Call(id int, title *string) (*entities.Note, error) {
 	note, err := uc.repository.UpdateTitle(id, title)
 
 	if err != nil {
