@@ -18,6 +18,7 @@ Method: `GET`
 #### Parameters:
 
 note_id (path parameter) - The ID of the note to retrieve.
+
 Response:
 
 **200 OK** - Returns the note with the specified ID.
