@@ -70,6 +70,7 @@ Response:
 
 **200 OK** - If the note is successfully created.
 
+---
 
 ### Update Note Content
 Updates the content of a specific note by its ID.
